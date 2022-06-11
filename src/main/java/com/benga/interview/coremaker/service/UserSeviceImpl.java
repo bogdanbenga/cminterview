@@ -17,11 +17,20 @@ import java.util.Set;
  * @author Bogdan Benga <bogdanbenga@gmail.com></>
  */
 @Service
-public class UserSeviceImpl implements UserService{
+public class UserSeviceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
     ModelMapper modelMapper = new ModelMapper();
+
+    @Override
+    public UserDTO getUser(long id) {
+        Optional<AppUser> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            return modelMapper.map(user.get(), UserDTO.class);
+        }
+        return null;
+    }
 
     @Override
     public void create(UserDTO userDTO) {
@@ -41,7 +50,7 @@ public class UserSeviceImpl implements UserService{
     @Override
     public UserDTO update(UserDTO userDTO) {
         Optional<AppUser> user = userRepository.findByEmail(userDTO.getEmail());
-        if (user.isPresent()){
+        if (user.isPresent()) {
             AppUser userToUpdate = user.get();
             userToUpdate.setEmail(userDTO.getEmail());
             userToUpdate.setFirstName(userDTO.getFirstName());

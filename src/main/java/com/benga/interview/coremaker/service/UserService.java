@@ -9,6 +9,8 @@ import java.util.Set;
  */
 public interface UserService {
 
+    UserDTO getUser(long id);
+
     void create(UserDTO userDTO);
 
     Set<UserDTO> getUsers();
